@@ -1,0 +1,61 @@
+DEV17 YAZILIM ŞİRKETİ - PROJE VE KODLAMA SÜREÇLERİ YÖNERGESİ
+
+BÖLÜM 1: MESAİ VE ÇALIŞMA KÜLTÜRÜ
+1. dev17 şirketinde temel prensip "görev odaklılık"tır; mesai saatleri yerine işin kalitesine ve zamanında teslimine odaklanılır.
+2. Çekirdek çalışma saatleri (Core Hours) 10:00 - 15:00 arasıdır. Bu saatlerde herkesin Slack üzerinde ulaşılabilir olması zorunludur.
+3. Günlük Daily Scrum toplantıları saat 10:15'te başlar ve 15 dakikayı asla aşamaz.
+4. Toplantılara kamerasız katılmak serbesttir, ancak sesli katılım ve ekran paylaşımı donanımının her zaman hazır olması gerekir.
+5. Şirket içi tüm yazışmalar İngilizce terimler barındırabilir ancak resmi dil Türkçe'dir.
+6. Uzaktan (remote) çalışma modeli desteklenmektedir; ofise gelme zorunluluğu sadece aylık "All-Hands" toplantılarında geçerlidir.
+7. İzin talepleri en az 48 saat önceden takım liderine yazılı olarak bildirilmelidir.
+8. Hastalık durumlarında günlük mesai zorunluluğu kalkar, dinlenmek önceliklidir.
+9. Cuma günleri saat 16:30 itibarıyla yeni kod yazımı (code freeze) başlar ve haftalık yorgunluğu atmak için ekipçe Rocket League veya CS2 maçları düzenlenir.
+10. Yeni başlayan stajyerler için ilk 2 hafta sadece dokümantasyon okuma ve mimariyi anlama süreci (onboarding) olarak ayrılır, canlıya kod atılmaz.
+
+BÖLÜM 2: GİT VE VERSİYON KONTROL SİSTEMİ
+11. Tüm projelerde Git Flow dallanma (branching) stratejisi uygulanır.
+12. "main" veya "master" branch'ine doğrudan kod pushlamak kesinlikle yasaktır.
+13. Her yeni özellik için "feature/ozellik-adi" formatında yeni bir dal açılmalıdır.
+14. Hata çözümleri için "bugfix/hata-adi", acil durumlar için "hotfix/acil-durum" isimlendirmeleri kullanılır.
+15. Commit mesajları "feat:", "fix:", "docs:", "refactor:" gibi standart prefix'ler (ön ekler) ile başlamalıdır.
+16. Commit mesajları açıklayıcı olmalı, "hata düzeltildi" veya "kod eklendi" gibi belirsiz ifadeler kullanılmamalıdır.
+17. Her Pull Request (PR) en az bir kıdemli (senior) geliştirici tarafından onaylanmadan merge edilemez.
+18. PR açılırken açıklama kısmına hangi sorunun çözüldüğü ve nasıl test edildiği maddeler halinde yazılmalıdır.
+19. Merge işlemi sırasında "Squash and Merge" yöntemi kullanılarak commit geçmişi temiz tutulmalıdır.
+20. Kullanılmayan ve merge edilmiş eski branch'ler yer kaplamaması adına silinmelidir.
+
+BÖLÜM 3: TEKNOLOJİ YIĞINI VE KODLAMA STANDARTLARI (FRONTEND & BACKEND)
+21. Frontend projelerinde standart kütüphane React'tir; class component yerine functional component ve Hook yapısı kullanılması zorunludur.
+22. Frontend tarafında state management işlemleri proje büyüklüğüne göre belirlenir, gereksiz karmaşıklıktan kaçınılır.
+23. Backend servislerinin geliştirilmesinde Java (Spring Boot) veya C# (.NET) ekosistemleri kullanılır.
+24. brainApp çekirdek projesine eklenecek yeni algoritmalar ve API endpoint'leri mutlaka detaylı şekilde dokümante edilmelidir.
+25. comeat gibi veri yoğunluklu ve sipariş tabanlı projelerde asenkron işlemler ve kuyruk (queue) mimarileri kullanılmalıdır.
+26. Mikroservis mimarisinde her servisin kendi veritabanı olmalı, servisler arası doğrudan veritabanı bağlantısı kurulmamalıdır.
+27. Görüntü işleme (Image Processing) ve yapay zeka/makine öğrenmesi algoritmaları ana backend'e yük bindirmeden, bağımsız servisler olarak tasarlanmalıdır.
+28. Tüm API yanıtları standart bir JSON formatında (status, message, data) dönmelidir.
+29. Magic string ve magic number kullanımından kaçınılmalı, bu değerler sabit (constant) değişkenlere bağlanmalıdır.
+30. Kod tekrarlarından (DRY prensibi - Don't Repeat Yourself) kaçınılmalı, ortak işlemler utility fonksiyonlarına taşınmalıdır.
+
+BÖLÜM 4: GÜVENLİK VE VERİTABANI YÖNETİMİ
+31. Hiçbir API anahtarı, şifre veya secret bilgisi kod içine doğrudan (hardcoded) yazılmaz.
+32. Tüm hassas veriler .env dosyalarından veya merkezi bir Vault sisteminden çekilmelidir.
+33. .env dosyaları projenin .gitignore listesine mutlaka eklenmelidir.
+34. Veritabanı sorgularında SQL Injection zafiyetlerini önlemek için her zaman parametrik sorgular veya ORM araçları kullanılmalıdır.
+35. Kullanıcı parolaları düz metin (plain text) olarak saklanamaz, mutlaka bcrypt gibi güçlü algoritmalarla hashlenmelidir.
+36. Dışa açılan tüm API uçlarında Rate Limiting (istek sınırlama) mekanizması aktif olmalıdır.
+37. Kullanıcı yetkilendirme işlemleri için JWT (JSON Web Token) standardı kullanılır, token ömürleri kısa tutulur.
+38. Canlı veritabanına test verisi basmak kesinlikle yasaktır.
+39. Veritabanı tablo isimlendirmeleri küçük harfle ve alt tire (snake_case) ile yapılmalıdır.
+40. Silinmemesi gereken veriler için "Soft Delete" (is_deleted = true) mantığı uygulanır, fiziksel silme yapılmaz.
+
+BÖLÜM 5: TEST, LOGLAMA VE SÜREKLİ ENTEGRASYON (CI/CD)
+41. Yazılan her kritik backend servisi için birim (unit) test yazılması zorunludur. Test coverage oranı %70'in altına düşemez.
+42. "Çalışıyor işte" mantığı kabul edilmez; testten geçmeyen hiçbir kod Production (Canlı) ortama alınmaz.
+43. Loglama işlemlerinde "System.out.println" veya "console.log" gibi amatör komutlar kullanılamaz; standart log kütüphaneleri tercih edilir.
+44. Hata logları sadece "Error" seviyesinde değil, hatanın nedenini açıklayacak "Trace" detayında kaydedilmelidir.
+45. CI/CD pipeline'ı (otomasyon süreci) kod PR olarak açıldığı an tetiklenir ve testleri otomatik çalıştırır.
+46. Test sürecinde çakılan (fail alan) pipeline'lar için anında Slack üzerinden uyarı mesajı düşer, hatayı yazan geliştirici düzeltmekle yükümlüdür.
+47. Deployment (canlıya alma) işlemleri mesai saatleri içinde yapılır; Cuma akşamı veya hafta sonu canlıya kod alınmaz.
+48. Canlı ortamda oluşan acil hatalar için 30 dakika içinde durum değerlendirmesi yapılır ve hızlı reaksiyon alınır.
+49. Kod içinde "TODO" bırakılabilir ancak bu görevler Jira veya Trello gibi bir iş takip sisteminde bilet (ticket) olarak açılmış olmalıdır.
+50. Yeni bir teknoloji veya kütüphane denenecekse, doğrudan ana projeye dahil edilmeden önce "Sandbox" ortamında prototip yapılarak ekibe sunulur.
